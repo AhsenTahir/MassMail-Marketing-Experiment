@@ -1,29 +1,44 @@
 import smtplib
 import time
+import random
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from .config import starting_roll_number , ending_roll_number
+from config import starting_roll_number, ending_roll_number
 
 # Email account credentials (sender's email and password)
-sender_email = "your_email@gmail.com"
-password = "your_password"
+sender_email = "mhm@gmail.com"
+password = "skibidi"
 
 # SMTP server setup (for Gmail, you can change this if using another email service)
 smtp_server = "smtp.gmail.com"
 smtp_port = 587
 
 # Email content
-subject = "Check this out! You don't want to miss it!"
-body = """
-Hey there,
+subject = "Discover Microsoft Learn Resources – A New Way to Boost Your Skills"
+greetings = ["Hi there,", "Hello,", "Greetings,", "Hey,", "Salutations,"]
 
-You won't believe what I found! Click on the link below to find out more.
+# Function to create a unique email body
+def create_email_body():
+    greeting = random.choice(greetings)  # Randomly select a greeting
+    body = f"""{greeting}
 
-[]
+We've built a tool to make it easier for you to find Microsoft Learn resources, including learning paths, modules, and documentation. Whether you're improving your tech skills or exploring new topics, this platform can help.
+
+Use this website:
+
+-Access free, official resources from Microsoft Learn.
+-Explore learning paths and documentation on topics like Azure, AI, DevOps, and more.
+-Benefit from an all-in-one search for quick and easy access to the material you need.
+-You can check it out here: Visit the Website(https://microsoft-earn.vercel.app/)
+
+By using this site, you're also supporting my journey to become a Microsoft Learn Student Ambassador, and I truly appreciate your help!
+
+Thank you for your support, and feel free to reach out if you have any questions or feedback.
 
 Best regards,
-ClickBait Team
+Microsoft Learn Student Ambassador
 """
+    return body
 
 # Email function
 def send_email(receiver_email):
@@ -34,6 +49,7 @@ def send_email(receiver_email):
     msg['Subject'] = subject
 
     # Add body to the email
+    body = create_email_body()  # Get the unique email body
     msg.attach(MIMEText(body, 'plain'))
 
     try:
@@ -59,7 +75,9 @@ def send_bulk_emails(start_roll, end_roll):
         # Generate the email address
         student_email = f"{prefix}{str(i).zfill(3)}@nu.edu.pk"
         send_email(student_email)
-        time.sleep(10)  # Delay for 10 seconds to avoid sending too many emails at once
+        time.sleep(random.randint(1,3))  # Delay for 10 seconds to avoid sending too many emails at once
+        if(i==50):
+            time.sleep(random.randint(40, 80))
 
 if __name__ == "__main__":
     # Define the starting and ending roll numbers
